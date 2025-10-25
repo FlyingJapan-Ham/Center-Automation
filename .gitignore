@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 .DS_Store
 data/schedule.json
+data/schedule.json.bak
+data/schedule.db
+data/schedule.db-journal
