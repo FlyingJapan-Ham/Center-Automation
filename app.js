@@ -566,4 +566,83 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+// PDF Export functionality
+const pdfBtn = document.getElementById('pdfBtn');
+if (pdfBtn) {
+  pdfBtn.addEventListener('click', () => {
+    window.print();
+  });
+}
+
+// Share Link functionality
+const shareBtn = document.getElementById('shareBtn');
+if (shareBtn) {
+  shareBtn.addEventListener('click', async () => {
+    const currentUrl = window.location.href;
+    const year = visibleDate.getFullYear();
+    const month = visibleDate.getMonth() + 1;
+    const shareUrl = `${currentUrl.split('?')[0]}?year=${year}&month=${month}`;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(shareUrl);
+        showNotification('링크가 클립보드에 복사되었습니다!');
+      } else {
+        // Fallback for non-secure contexts
+        const textArea = document.createElement('textarea');
+        textArea.value = shareUrl;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          showNotification('링크가 클립보드에 복사되었습니다!');
+        } catch (err) {
+          prompt('링크를 복사하세요:', shareUrl);
+        }
+        document.body.removeChild(textArea);
+      }
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      prompt('링크를 복사하세요:', shareUrl);
+    }
+  });
+}
+
+// Show notification
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.classList.add('show');
+  }, 10);
+
+  setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 300);
+  }, 3000);
+}
+
+// Load month from URL parameters
+function loadMonthFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const year = params.get('year');
+  const month = params.get('month');
+
+  if (year && month) {
+    visibleDate.setFullYear(parseInt(year));
+    visibleDate.setMonth(parseInt(month) - 1);
+  }
+}
+
+// Load month from URL on page load
+loadMonthFromURL();
+
 initializeScheduleBoard();

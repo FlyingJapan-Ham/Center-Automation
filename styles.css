@@ -89,6 +89,31 @@ h1 {
   gap: 12px;
 }
 
+.toolbar-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-btn {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.action-btn:hover {
+  background: #eef2ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(47, 122, 248, 0.15);
+}
+
 .calendar-toolbar h2 {
   margin: 0;
   font-size: 1.15rem;
@@ -622,5 +647,100 @@ select:disabled {
 
   .day {
     min-height: 140px;
+  }
+}
+
+/* Notification toast */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #2f7af8;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(47, 122, 248, 0.4);
+  font-weight: 600;
+  font-size: 0.9rem;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+}
+
+.notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Print styles for PDF export */
+@media print {
+  body {
+    background: white;
+  }
+
+  .page {
+    padding: 10mm;
+  }
+
+  /* Hide interactive elements */
+  .action-btn,
+  .ghost-btn,
+  .today-btn,
+  .add-btn,
+  .add-shift-btn,
+  .assignment-chip .remove-mark,
+  .legend,
+  .weekly-stats,
+  .cta {
+    display: none !important;
+  }
+
+  /* Hide holiday list in print */
+  .holiday-list {
+    display: none !important;
+  }
+
+  .page-header {
+    margin-bottom: 10mm;
+  }
+
+  .calendar-toolbar {
+    margin-bottom: 5mm;
+  }
+
+  .calendar-toolbar h2 {
+    font-size: 1.2rem;
+  }
+
+  /* Optimize calendar for print */
+  .calendar-grid {
+    gap: 3mm;
+  }
+
+  .day {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #333;
+  }
+
+  .day.holiday {
+    background: #ffe6e6 !important;
+  }
+
+  /* Make assignment chips non-interactive in print */
+  .assignment-chip {
+    cursor: default;
+    box-shadow: none;
+  }
+
+  .assignment-chip:hover {
+    transform: none;
+  }
+
+  /* Ensure colors print correctly */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
