@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>플라잉재팬 근무 스케줄러</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Flying Japan</p>
+          <h1>센터 근무자 스케줄 보드</h1>
+          <p class="subtitle">
+            오전 2명 / 오후 1명으로 맞춰 주세요. (오전 09:00‑15:00, 오후 15:00‑21:00)
+          </p>
+        </div>
+        <div class="cta">
+          <span class="cta-text">모든 변경 사항은 서버에 자동 저장됩니다.</span>
+        </div>
+      </header>
+
+      <section class="calendar-toolbar">
+        <div class="toolbar-control">
+          <button id="prevMonth" type="button" class="ghost-btn" aria-label="이전 달">
+            ←
+          </button>
+        </div>
+        <div class="toolbar-center">
+          <h2 id="monthLabel">2024년 1월</h2>
+          <button id="todayBtn" type="button" class="today-btn">이번 달</button>
+        </div>
+        <div class="toolbar-control">
+          <button id="nextMonth" type="button" class="ghost-btn" aria-label="다음 달">
+            →
+          </button>
+        </div>
+      </section>
+
+      <div class="calendar-scroll">
+        <div class="weekday-row" aria-hidden="true">
+          <span>일</span>
+          <span>월</span>
+          <span>화</span>
+          <span>수</span>
+          <span>목</span>
+          <span>금</span>
+          <span>토</span>
+        </div>
+
+        <section class="calendar-grid" id="calendarGrid" aria-live="polite"></section>
+      </div>
+
+      <section class="weekly-stats" id="weeklyStats"></section>
+
+      <section class="legend">
+        <p class="legend-title">사용 방법</p>
+        <ul>
+          <li>날짜 카드에서 원하는 근무의 + 추가 버튼을 눌러 이름을 채워 주세요.</li>
+          <li>이미 배정된 칩을 클릭하면 삭제됩니다.</li>
+          <li>좌우 화살표로 다른 달을 조회할 수 있습니다.</li>
+          <li>빨간색 날짜는 일본 공휴일입니다.</li>
+        </ul>
+        <div id="holidayList" class="holiday-list"></div>
+      </section>
+    </div>
+
+    <template id="dayTemplate">
+      <article class="day">
+        <header class="day-header">
+          <p class="weekday"></p>
+          <p class="date"></p>
+        </header>
+        <div class="shifts"></div>
+      </article>
+    </template>
+
+    <template id="shiftTemplate">
+      <div class="shift">
+        <div class="shift-row">
+          <div class="shift-meta">
+            <p class="shift-name"></p>
+            <span class="slot-count"></span>
+          </div>
+          <button class="add-btn" type="button">+ 추가</button>
+        </div>
+        <div class="assignments"></div>
+      </div>
+    </template>
+
+    <div class="modal-backdrop" id="assignmentModal" hidden>
+      <div
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <h3 id="modalTitle">인원 배정</h3>
+        <p id="modalInfo" class="modal-info"></p>
+
+        <label class="field-label" for="memberSelect">아르바이트생 선택</label>
+        <select id="memberSelect" aria-label="아르바이트생 선택">
+          <option value="" disabled selected>이름을 선택하세요</option>
+        </select>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelAssignment">
+            취소
+          </button>
+          <button type="button" class="primary-btn" id="saveAssignment" disabled>
+            저장
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
