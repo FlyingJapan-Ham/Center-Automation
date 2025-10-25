@@ -69,20 +69,19 @@ h1 {
 
 .calendar-toolbar {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 12px;
   margin-bottom: 12px;
 }
 
-.toolbar-control {
-  flex: 0 0 auto;
+.toolbar-main {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .toolbar-center {
-  flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,9 +89,9 @@ h1 {
 }
 
 .toolbar-actions {
-  flex: 0 0 auto;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
